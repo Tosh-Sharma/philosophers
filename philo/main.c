@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:16:00 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/04 15:48:09 by tsharma          ###   ########.fr       */
+/*   Updated: 2022/12/04 19:44:48 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 int	initialize(t_input i);
 int	run_simulation(t_input i);
+int	print_n_return(char *str, int ret_value);
 
 int	main(int argc, char **argv)
 {
 	t_input		i;
 	int			flag;
+	int			ret_val;
 
 	if (argc == 5 || argc == 6)
 	{
@@ -32,25 +34,42 @@ int	main(int argc, char **argv)
 		i.time_to_eat = ft_superatoi(argv[3], &flag);
 		i.time_to_sleep = ft_superatoi(argv[4], &flag);
 		if (flag == 1)
-		{
-			printf("Incorrect input\n");
-			return (128);
-		}
-		return (initialize(i));
+			return (print_n_return("Incorrect input\n", 128));
+		ret_val = initialize(i);
+		system("leaks philo");
+		return (ret_val);
 	}
-	printf("Number of input arguments is incorrect\n");
-	return (128);
+	return (print_n_return("Number of input arguments is incorrect\n", 128));
 }
 
 int	initialize(t_input i)
 {
+	pthread_t		*monk;
+	pthread_mutex_t	*fork;
+
+	monk = (pthread_t *)malloc(i.monk_count * (sizeof(pthread_t)));
+	fork = (pthread_mutex_t *)malloc(i.monk_count * (sizeof(pthread_mutex_t)));
+	if (!monk || !fork)
+	{
+		printf("Could not allocate memory correctly. Retry!\n");
+		return (1);
+	}
 	return (run_simulation(i));
 }
 
+// TODO: Below code is currently all experimental and needs to be worked on.
 int	run_simulation(t_input i)
 {
-	printf("Inputs given are as follows:\n");
-	printf("%d %d %d %d %d", i.monk_count, i.time_to_die, i.time_to_eat,
-		i.time_to_sleep, i.run_count);
+	struct timeval	current_time;
+
+	gettimeofday(&current_time, NULL);
+	printf("seconds : %ld\nmicro seconds : %d", current_time.tv_sec,
+		current_time.tv_usec);
 	return (0);
+}
+
+int	print_n_return(char *str, int ret_value)
+{
+	printf("%s", str);
+	return (ret_value);
 }

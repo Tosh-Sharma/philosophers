@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:44:11 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/04 14:38:20 by tsharma          ###   ########.fr       */
+/*   Updated: 2022/12/04 16:04:27 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <pthread.h>
 
 typedef struct s_input
 {
