@@ -1,0 +1,6 @@
+philo
+*.o
+*.gch
+*.a
+.vscode
+.out

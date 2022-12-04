@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:44:11 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/03 17:02:00 by tsharma          ###   ########.fr       */
+/*   Updated: 2022/12/04 14:38:20 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_H
 
 # include <stdio.h>
+# include <stdlib.h>
 # include <sys/time.h>
 
 typedef struct s_input
@@ -25,6 +26,6 @@ typedef struct s_input
 	int	run_count;
 }	t_input;
 
-int	ft_superatoi(const char *str);
+int	ft_superatoi(const char *str, int *flag);
 
 #endif

@@ -6,56 +6,51 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:16:00 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/03 16:51:37 by tsharma          ###   ########.fr       */
+/*   Updated: 2022/12/04 15:48:09 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	initialize(t_input i);
-void	run_simulation(t_input i);
+int	initialize(t_input i);
+int	run_simulation(t_input i);
 
 int	main(int argc, char **argv)
 {
 	t_input		i;
+	int			flag;
 
-	if (argc != 4 || argc != 5)
+	if (argc == 5 || argc == 6)
 	{
-		printf("Number of input arguments is incorrect\n");
-		return ;
-	}
-	else
-	{
-		if (argc == 4)
+		flag = 0;
+		if (argc == 5)
 			i.run_count = 0;
 		else
+			i.run_count = ft_superatoi(argv[5], &flag);
+		i.monk_count = ft_superatoi(argv[1], &flag);
+		i.time_to_die = ft_superatoi(argv[2], &flag);
+		i.time_to_eat = ft_superatoi(argv[3], &flag);
+		i.time_to_sleep = ft_superatoi(argv[4], &flag);
+		if (flag == 1)
 		{
-			i.monk_count = ft_superatoi(argv[1]);
-			i.time_to_die = ft_superatoi(argv[2]);
-			i.time_to_eat = ft_superatoi(argv[3]);
-			i.time_to_sleep = ft_superatoi(argv[4]);
-			i.run_count = ft_superatoi(argv[5]);
+			printf("Incorrect input\n");
+			return (128);
 		}
-		initialize(i);
+		return (initialize(i));
 	}
+	printf("Number of input arguments is incorrect\n");
+	return (128);
+}
+
+int	initialize(t_input i)
+{
+	return (run_simulation(i));
+}
+
+int	run_simulation(t_input i)
+{
+	printf("Inputs given are as follows:\n");
+	printf("%d %d %d %d %d", i.monk_count, i.time_to_die, i.time_to_eat,
+		i.time_to_sleep, i.run_count);
 	return (0);
-}
-
-void	initialize(t_input i)
-{
-	if (i.monk_count == NULL || i.monk_count <= 0
-		|| i.time_to_die == NULL || i.time_to_die <= 0
-		|| i.time_to_eat == NULL || i.time_to_eat <= 0
-		|| i.time_to_sleep == NULL || i.time_to_sleep <= 0
-		|| i.run_count == NULL || i.run_count < 0)
-	{
-		printf("Invalid input, fix it\n");
-		return ;
-	}
-	else
-		run_simulation(i);
-}
-
-void	run_simulation(t_input i)
-{
 }

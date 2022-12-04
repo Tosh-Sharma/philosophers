@@ -2,19 +2,18 @@ NAME = philo
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS =	main. c \
-		ft_superatoi.c \
-		philo.c
+SRCS = 	main.c \
+		ft_superatoi.c
 
 OBJS = ${SRCS:.c=.o}
 
 all: ${NAME}
 
-$(NAME): $(OBJS)
-	$(CC) $(OBJS) -o $(NAME)
+${NAME}: ${OBJS}
+	${CC} ${CFLAGS} -o ${@} ${^}
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	${CC} ${CFLAGS} -o ${@} -c ${@:.o=.c}
 
 re: fclean all
 

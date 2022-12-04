@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 16:10:32 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/03 16:14:35 by tsharma          ###   ########.fr       */
+/*   Updated: 2022/12/04 15:35:16 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	flip_if_negative_super(char str, int is_neg)
 	return (is_neg);
 }
 
-int	calculate_number_super(const char *str, int is_neg)
+int	calculate_number_super(const char *str, int is_neg, int *flag)
 {
 	int	i;
 	int	num;
@@ -39,25 +39,22 @@ int	calculate_number_super(const char *str, int is_neg)
 	i = 0;
 	num = 0;
 	if (str[i] == 0)
-		return (NULL);
+		*flag = 1;
 	while (str[i] >= 48 && str[i] <= 57 && str[i] != '\0')
 	{
 		num = (num * 10) + (str[i] - 48);
 		if ((num > 214748364 && str[i + 1] != '\0') || (num == 214748364
 				&& ((is_neg && str[i + 1] > 56)
 					|| (!(is_neg) && str[i + 1] > 55))))
-			return (NULL);
+			*flag = 1;
 		i++;
 	}
 	if (((str[i] > 0 && str[i] < 48) || str[i] > 57))
-		return (NULL);
-	if (is_neg)
-		return (num * -1);
-	else
-		return (num);
+		*flag = 1;
+	return (num);
 }
 
-int	ft_superatoi(const char *str)
+int	ft_superatoi(const char *str, int *flag)
 {
 	int		i;
 	int		is_neg;
@@ -71,5 +68,10 @@ int	ft_superatoi(const char *str)
 		is_neg = flip_if_negative_super(str[i], is_neg);
 		i++;
 	}
-	return (calculate_number_super(&str[i], is_neg));
+	if (is_neg == 1)
+	{
+		*flag = 1;
+		return (0);
+	}
+	return (calculate_number_super(&str[i], is_neg, flag));
 }
