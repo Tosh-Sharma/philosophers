@@ -3,7 +3,9 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = 	main.c \
-		ft_superatoi.c
+		ft_superatoi.c \
+		philo.c \
+		core.c
 
 OBJS = ${SRCS:.c=.o}
 
