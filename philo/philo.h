@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:44:11 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/05 20:47:36 by tsharma          ###   ########.fr       */
+/*   Updated: 2022/12/08 14:49:23 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ typedef struct s_input
 }	t_input;
 
 int		ft_superatoi(const char *str, int *flag);
-int		time_to_end(t_input i);
-void	take_forks(t_input i, int j);
-void	eating_time(t_input i, int j);
-void	return_forks_n_sleep(t_input i, int j);
+int		time_to_end(t_input *i);
+void	take_forks(t_input *i, int j);
+void	eating_time(t_input *i, int j);
+void	return_forks_n_sleep(t_input *i, int j);
 
 int		run_simulation_odd(t_input i);
 

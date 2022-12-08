@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:16:00 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/05 21:00:58 by tsharma          ###   ########.fr       */
+/*   Updated: 2022/12/08 14:53:09 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		initialize(t_input i);
 int		run_simulation_even(t_input i);
 int		print_n_return(char *str, int ret_value);
-void	routine(t_input i);
+void	*routine(void *input);
 
 int	main(int argc, char **argv)
 {
@@ -44,7 +44,6 @@ int	main(int argc, char **argv)
 
 int	initialize(t_input i)
 {
-	struct timeval	current_time;
 	int				j;
 
 	i.eat_count = (int *)malloc(sizeof(int) * i.monk_count);
@@ -80,7 +79,7 @@ int	run_simulation_even(t_input i)
 	while (j < i.monk_count)
 	{
 		i.j = j;
-		pthread_create(i.monk[j], NULL, &routine, &i);
+		pthread_create(&i.monk[j], NULL, &routine, &i);
 		j += 2;
 	}
 	usleep(10000);
@@ -88,7 +87,7 @@ int	run_simulation_even(t_input i)
 	while (j < i.monk_count)
 	{
 		i.j = j;
-		pthread_create(i.monk[j], NULL, &routine, &i);
+		pthread_create(&i.monk[j], NULL, &routine, &i);
 		j += 2;
 	}
 	j = -1;
@@ -104,14 +103,18 @@ int	print_n_return(char *str, int ret_value)
 	return (ret_value);
 }
 
-void	routine(t_input i)
+void	*routine(void *input)
 {
+	t_input	*i;
+
+	i = (t_input *)input;
 	while (1)
 	{
 		if (time_to_end(i) == 1)
 			break ;
-		take_forks(i, i.j);
-		eating_time(i, i.j);
-		return_forks_n_sleep(i, i.j);
+		take_forks(i, i->j);
+		eating_time(i, i->j);
+		return_forks_n_sleep(i, i->j);
 	}
+	return (NULL);
 }

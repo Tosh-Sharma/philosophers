@@ -4,8 +4,8 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = 	main.c \
 		ft_superatoi.c \
-		philo.c \
-		core.c
+		subroutines.c \
+		utils.c
 
 OBJS = ${SRCS:.c=.o}
 
