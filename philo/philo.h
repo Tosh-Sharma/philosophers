@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
+/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:44:11 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/08 14:49:23 by tsharma          ###   ########.fr       */
+/*   Updated: 2022/12/13 15:03:39 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,16 @@ typedef struct s_input
 	struct timeval	current_time;
 	pthread_t		*monk;
 	pthread_mutex_t	*fork;
+	pthread_mutex_t *boss;
 	int				*eat_count;
 	time_t			time_zero;
 }	t_input;
 
 int		ft_superatoi(const char *str, int *flag);
-int		time_to_end(t_input *i);
+int		meal_done(t_input *i);
 void	take_forks(t_input *i, int j);
 void	eating_time(t_input *i, int j);
 void	return_forks_n_sleep(t_input *i, int j);
-
-int		run_simulation_odd(t_input i);
-
 void	free_stuff(t_input i);
 
 #endif

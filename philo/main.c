@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
+/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:16:00 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/08 14:53:09 by tsharma          ###   ########.fr       */
+/*   Updated: 2022/12/13 15:55:15 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 int		initialize(t_input i);
-int		run_simulation_even(t_input i);
+int		run_simulation(t_input i);
 int		print_n_return(char *str, int ret_value);
 void	*routine(void *input);
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 	{
 		flag = 0;
 		if (argc == 5)
-			i.run_count = 0;
+			i.run_count = 2147483647;
 		else
 			i.run_count = ft_superatoi(argv[5], &flag);
 		i.monk_count = ft_superatoi(argv[1], &flag);
@@ -52,43 +52,31 @@ int	initialize(t_input i)
 		i.eat_count[j] = 0;
 	i.monk = (pthread_t *)malloc(i.monk_count * (sizeof(pthread_t)));
 	i.fork = (pthread_mutex_t *)malloc(i.monk_count * sizeof(pthread_mutex_t));
-	if (!i.monk || !i.fork)
+	i.boss = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	if (!i.monk || !i.fork || !i.boss)
 		return (print_n_return("Could not allocate memory. Retry!\n", 1));
 	j = -1;
 	while (++j < i.monk_count)
 		if (pthread_mutex_init(&i.fork[j], NULL) != 0)
 			return (print_n_return("Could not init mutex. Retry!\n", 1));
-	if (i.monk_count % 2 == 0)
-		return (run_simulation_even(i));
-	else
-		return (run_simulation_odd(i));
+	run_simulation(i);
 	return (1);
 }
 
 // gettimeofday(&current_time, NULL);
 // printf("seconds : %ld\nmicro seconds : %d", current_time.tv_sec,
 // 	current_time.tv_usec);
-// TODO: Need a death tracking thread.
-int	run_simulation_even(t_input i)
+int	run_simulation(t_input i)
 {
 	int	j;
 
-	j = 0;
 	gettimeofday(&i.current_time, NULL);
 	i.time_zero = i.current_time.tv_sec;
-	while (j < i.monk_count)
+	j = -1;
+	while (++i.j < i.monk_count)
 	{
-		i.j = j;
-		pthread_create(&i.monk[j], NULL, &routine, &i);
-		j += 2;
-	}
-	usleep(10000);
-	j = 1;
-	while (j < i.monk_count)
-	{
-		i.j = j;
-		pthread_create(&i.monk[j], NULL, &routine, &i);
-		j += 2;
+		pthread_create(&i.monk[i.j], NULL, &routine, &i);
+		usleep(100);
 	}
 	j = -1;
 	while (++j < i.monk_count)
@@ -110,11 +98,13 @@ void	*routine(void *input)
 	i = (t_input *)input;
 	while (1)
 	{
-		if (time_to_end(i) == 1)
+		pthread_mutex_lock(i->boss);
+		if (meal_done(i) == 1)
 			break ;
 		take_forks(i, i->j);
 		eating_time(i, i->j);
 		return_forks_n_sleep(i, i->j);
+		pthread_mutex_unlock(i->boss);
 	}
 	return (NULL);
 }
