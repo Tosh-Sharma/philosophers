@@ -6,70 +6,71 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 12:02:53 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/14 13:00:02 by toshsharma       ###   ########.fr       */
+/*   Updated: 2022/12/31 23:56:31 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	accurate_usleep(int	sleep_in_msec)
+int	accurate_usleep(t_philo *i, int sleep_in_msec)
 {
 	struct timeval	current_time;
-	struct timeval	time_to_wake_up;
+	long			initial_time;
+	long			final_time;
 
 	gettimeofday(&current_time, NULL);
-	time_to_wake_up.tv_sec = current_time.tv_sec;
-	time_to_wake_up.tv_usec = current_time.tv_usec + (sleep_in_msec * 1000);
-	while (time_to_wake_up.tv_sec == current_time.tv_sec
-		&& current_time.tv_usec < time_to_wake_up.tv_usec)
+	initial_time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
+	final_time = initial_time + sleep_in_msec;
+	while (initial_time < final_time)
 	{
-		gettimeofday(&current_time, NULL);
 		usleep(100);
+		if (should_we_stop(i) == -1)
+		{
+			printf("Attempting to break the loop by returning -1\n");
+			return (-1);
+		}
+		gettimeofday(&current_time, NULL);
+		initial_time = (current_time.tv_sec * 1000) + (current_time.tv_usec
+				/ 1000);
 	}
+	return (0);
 }
 
-int	meal_done(t_input *i)
+long long	get_time(struct timeval *holder)
 {
-	int	k;
+	long long	time;
 
-	k = 0;
-	while (k < i->monk_count)
+	gettimeofday(holder, NULL);
+	time = (holder->tv_sec * 1000) + (holder->tv_usec / 1000);
+	return (time);
+}
+
+int	eat_sleep_repeat(t_philo *i)
+{
+	long long	time;
+
+	time = get_time(&i->current_time);
+	pthread_mutex_lock(&i->fork[i->fork_left]);
+	printer(i, time - i->time_zero, i->monk_number, "took a fork");
+	pthread_mutex_lock(&i->fork[i->fork_right]);
+	time = get_time(&i->current_time);
+	printer(i, time - i->time_zero, i->monk_number, "took a fork");
+	time = get_time(&i->current_time);
+	i->eat_time[i->monk_number] = time;
+	printer(i, time - i->time_zero, i->monk_number, "is eating");
+	if (accurate_usleep(i, i->time_to_eat) == -1)
 	{
-		if (i->eat_count[k] != i->run_count)
-			return (0);
-		k++;
+		printf("We returned -1: Part 1\n");
+		return (-1);
 	}
-	return (1);
-}
-
-void	take_forks(t_input *i, int j)
-{
-	gettimeofday(&i->current_time, NULL);
-	pthread_mutex_lock(&i->fork[j % (i->monk_count - 1)]);
-	printf("%ld ms %d took a fork\n", i->current_time.tv_sec - i->time_zero,
-		j + 1);
-	pthread_mutex_lock(&i->fork[(j + 1) % (i->monk_count - 1)]);
-	gettimeofday(&i->current_time, NULL);
-	printf("%ld ms %d took a fork\n", i->current_time.tv_sec - i->time_zero,
-		j + 1);
-}
-
-void	eating_time(t_input *i, int j)
-{
-	gettimeofday(&i->current_time, NULL);
-	printf("%ld ms %d is eating\n", i->current_time.tv_sec - i->time_zero,
-		j + 1);
-	accurate_usleep(i->time_to_eat * 1000);
-}
-
-void	return_forks_n_sleep(t_input *i, int j)
-{
-	pthread_mutex_unlock(&i->fork[j % (i->monk_count - 1)]);
-	pthread_mutex_unlock(&i->fork[(j + 1) % (i->monk_count - 1)]);
-	gettimeofday(&i->current_time, NULL);
-	printf("%ld ms %d is sleeping\n", i->current_time.tv_sec - i->time_zero,
-		j + 1);
-	accurate_usleep(i->time_to_sleep * 1000);
-	printf("%ld ms %d is thinking\n", (i->time_to_sleep + i->current_time.tv_sec)
-		- i->time_zero, j + 1);
+	i->eat_count[i->monk_number]++;
+	pthread_mutex_unlock(&i->fork[i->fork_left]);
+	pthread_mutex_unlock(&i->fork[i->fork_right]);
+	time = get_time(&i->current_time);
+	printer(i, time - i->time_zero, i->monk_number, "is sleeping");
+	if (accurate_usleep(i, i->time_to_sleep) == -1)
+		return (-1);
+	time = get_time(&i->current_time);
+	printer(i, time - i->time_zero, i->monk_number, "is thinking");
+	return (0);
 }
