@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subroutines.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 12:02:53 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/02 17:39:51 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/01/02 21:11:09 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	eat_sleep_repeat(t_philo *i)
 {
 	long long	time;
 
-	time = get_time(&i->current_time);
 	pthread_mutex_lock(&i->fork[i->fork_left]);
+	time = get_time(&i->current_time);
 	printer(i, time - i->time_zero, i->monk_number, "took a fork");
 	pthread_mutex_lock(&i->fork[i->fork_right]);
 	time = get_time(&i->current_time);

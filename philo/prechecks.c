@@ -3,15 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   prechecks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:20:21 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/01/02 17:39:48 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/01/02 21:02:13 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+int	print_death(long long time, int monk_number, t_philo *i)
+{
+	pthread_mutex_lock(i->death);
+	if (*i->did_anyone_die == 0)
+	{
+		printf("%lld ms %d died\n", time,
+			monk_number);
+		*i->did_anyone_die = 1;
+	}
+	pthread_mutex_unlock(i->death);
+	return (-1);
+}
+
+// That double if cannot be reduced to a single if. That's a fact.
+// Try all sorts of test cases out in case you have doubts.
 int	should_we_stop(t_philo *i)
 {
 	int			counter;
@@ -24,18 +39,10 @@ int	should_we_stop(t_philo *i)
 		if (i->eat_count[counter] == 0)
 		{
 			if (time - i->time_zero > i->time_to_die)
-			{
-				printf("%lld ms %d has died\n", time - i->time_zero,
-					counter + 1);
-				return (-1);
-			}
+				return (print_death(time - i->time_zero, counter + 1, i));
 		}
 		else if (time - i->eat_time[counter] > i->time_to_die)
-		{
-			printf("%lld ms %d has died\n", time - i->time_zero,
-				counter + 1);
-			return (-1);
-		}
+			return (print_death(time - i->time_zero, counter + 1, i));
 		counter++;
 	}
 	return (0);

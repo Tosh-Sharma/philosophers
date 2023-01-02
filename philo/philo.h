@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:44:11 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/02 15:47:00 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/01/02 20:36:31 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ typedef struct s_philo
 	int				run_count;
 	long long		*eat_time;
 	struct timeval	current_time;
+	int				*did_anyone_die;
 	int				*eat_count;
 	long long		time_zero;
 	pthread_t		*monk;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*printer;
+	pthread_mutex_t	*death;
 }	t_philo;
 
 typedef struct s_input
@@ -47,24 +49,26 @@ typedef struct s_input
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				run_count;
-	long long		*eat_time;
-	struct timeval	current_time;
+	int				*eat_count;
+	int				*did_anyone_die;
+	t_philo			*data;
 	pthread_t		*monk;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*printer;
-	t_philo			*data;
-	int				*eat_count;
+	pthread_mutex_t	*death;
+	long long		*eat_time;
 	long long		time_zero;
+	struct timeval	current_time;
 }	t_input;
 
-int		ft_superatoi(const char *str, int *flag);
-int		meals_done(t_philo *i, int j);
-int		eat_sleep_repeat(t_philo *i);
-int		should_we_stop(t_philo *i);
-void	free_stuff(t_input i);
-int		printer(t_philo *i, long time, int j, char *action);
-int		print_n_return(char *str, int ret_value);
-void	*ft_calloc(size_t count, size_t size);
+int			ft_superatoi(const char *str, int *flag);
+int			meals_done(t_philo *i, int j);
+int			eat_sleep_repeat(t_philo *i);
+int			should_we_stop(t_philo *i);
+void		free_stuff(t_input i);
+int			printer(t_philo *i, long time, int j, char *action);
+int			print_n_return(char *str, int ret_value);
+void		*ft_calloc(size_t count, size_t size);
 long long	get_time(struct timeval *holder);
 
 #endif

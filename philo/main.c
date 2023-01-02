@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:16:00 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/02 20:16:03 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/01/02 21:19:14 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	main(int argc, char **argv)
 	t_input		i;
 	int			flag;
 	int			ret_val;
+	int			did_anyone_die;
 
+	did_anyone_die = 0;
+	i.did_anyone_die = &did_anyone_die;
 	if (argc == 5 || argc == 6)
 	{
 		flag = 0;
@@ -54,14 +57,19 @@ int	initialize(t_input i)
 	i.monk = (pthread_t *)malloc(i.monk_count * (sizeof(pthread_t)));
 	i.fork = (pthread_mutex_t *)malloc(i.monk_count * sizeof(pthread_mutex_t));
 	i.printer = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	i.death = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	i.data = (t_philo *)malloc(sizeof(t_philo) * i.monk_count);
-	i.eat_time = (long long *)calloc(i.monk_count, sizeof(long long));
+	i.eat_time = (long long *)ft_calloc(i.monk_count, sizeof(long long));
 	if (!i.monk || !i.fork || !i.printer || !i.data)
 		return (print_n_return("Could not allocate memory. Retry!\n", 1));
 	j = -1;
 	while (++j < i.monk_count)
 		if (pthread_mutex_init(&i.fork[j], NULL) != 0)
 			return (print_n_return("Could not init mutex. Retry!\n", 1));
+	if (pthread_mutex_init(i.printer, NULL) != 0)
+		return (print_n_return("Could not init mutex for printer. Retry\n", 1));
+	if (pthread_mutex_init(i.death, NULL) != 0)
+		return (print_n_return("Could not init mutex for death checker.\n", 1));
 	set_values(i);
 	run_simulation(i);
 	return (1);
@@ -92,6 +100,8 @@ void	set_values(t_input i)
 		i.data[counter].printer = i.printer;
 		i.data[counter].eat_count = i.eat_count;
 		i.data[counter].eat_time = i.eat_time;
+		i.data[counter].death = i.death;
+		i.data[counter].did_anyone_die = i.did_anyone_die;
 		counter++;
 	}
 }

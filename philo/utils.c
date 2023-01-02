@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:28:24 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/31 22:25:16 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/01/02 21:18:53 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	free_stuff(t_input i)
 	free(i.printer);
 	free(i.eat_count);
 	free(i.data);
+	free(i.death);
 	free(i.eat_time);
 }
 
