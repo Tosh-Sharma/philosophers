@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:44:11 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/02 20:36:31 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/02 22:14:06 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ int			meals_done(t_philo *i, int j);
 int			eat_sleep_repeat(t_philo *i);
 int			should_we_stop(t_philo *i);
 void		free_stuff(t_input i);
-int			printer(t_philo *i, long time, int j, char *action);
+int			printer(t_philo *i, int j, char *action);
 int			print_n_return(char *str, int ret_value);
 void		*ft_calloc(size_t count, size_t size);
 long long	get_time(struct timeval *holder);
+int			lonely_monk(t_input *i);
 
 #endif

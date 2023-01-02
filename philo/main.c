@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:16:00 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/02 21:19:14 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/02 22:11:04 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int	run_simulation(t_input i)
 	gettimeofday(&i.current_time, NULL);
 	i.time_zero = (i.current_time.tv_sec * 1000) + (i.current_time.tv_usec
 			/ 1000);
+	if (i.monk_count == 1)
+		return (lonely_monk(&i));
 	j = 0;
 	while (j < i.monk_count)
 	{
