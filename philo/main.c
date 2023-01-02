@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:16:00 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/31 23:57:13 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/01/02 20:16:03 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,17 +112,15 @@ int	run_simulation(t_input i)
 		j++;
 	}
 	j = -1;
-	// printf("Thread reached here");
 	while (++j < i.monk_count)
 		pthread_join(i.monk[j], NULL);
-	// printf("We free stuff now");
 	free_stuff(i);
 	return (0);
 }
 
 void	*routine(void *input)
 {
-	t_philo *i;
+	t_philo	*i;
 
 	i = (t_philo *)input;
 	while (1)
@@ -130,10 +128,7 @@ void	*routine(void *input)
 		if (meals_done(i, i->monk_number) == 1)
 			break ;
 		if (eat_sleep_repeat(i) == -1)
-		{
-			printf("We got a return -1 so we break\n");
 			break ;
-		}
 	}
 	return (NULL);
 }

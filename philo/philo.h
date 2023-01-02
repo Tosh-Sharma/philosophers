@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:44:11 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/31 23:03:55 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/01/02 15:47:00 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-
-# define DEAD -1
-# define ALIVE 1
-# define ERROR -1
 
 // Need this struct to ensure that every thread has all the information it needs
 // to manipulate data further.
@@ -55,7 +51,7 @@ typedef struct s_input
 	struct timeval	current_time;
 	pthread_t		*monk;
 	pthread_mutex_t	*fork;
-	pthread_mutex_t *printer;
+	pthread_mutex_t	*printer;
 	t_philo			*data;
 	int				*eat_count;
 	long long		time_zero;

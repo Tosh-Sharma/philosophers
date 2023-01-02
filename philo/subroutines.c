@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 12:02:53 by tsharma           #+#    #+#             */
-/*   Updated: 2022/12/31 23:56:31 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/01/02 17:39:51 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	accurate_usleep(t_philo *i, int sleep_in_msec)
 	{
 		usleep(100);
 		if (should_we_stop(i) == -1)
-		{
-			printf("Attempting to break the loop by returning -1\n");
 			return (-1);
-		}
 		gettimeofday(&current_time, NULL);
 		initial_time = (current_time.tv_sec * 1000) + (current_time.tv_usec
 				/ 1000);
@@ -59,10 +56,7 @@ int	eat_sleep_repeat(t_philo *i)
 	i->eat_time[i->monk_number] = time;
 	printer(i, time - i->time_zero, i->monk_number, "is eating");
 	if (accurate_usleep(i, i->time_to_eat) == -1)
-	{
-		printf("We returned -1: Part 1\n");
 		return (-1);
-	}
 	i->eat_count[i->monk_number]++;
 	pthread_mutex_unlock(&i->fork[i->fork_left]);
 	pthread_mutex_unlock(&i->fork[i->fork_right]);
