@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:20:21 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/01/02 21:02:13 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/03 01:11:22 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	print_death(long long time, int monk_number, t_philo *i)
 	pthread_mutex_lock(i->death);
 	if (*i->did_anyone_die == 0)
 	{
-		printf("%lld ms %d died\n", time,
-			monk_number);
+		printf("%lld ms %d died\n", time, monk_number);
 		*i->did_anyone_die = 1;
 	}
 	pthread_mutex_unlock(i->death);

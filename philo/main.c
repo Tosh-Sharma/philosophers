@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:16:00 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/02 22:11:04 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/03 01:16:29 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ int		print_n_return(char *str, int ret_value);
 void	*routine(void *input);
 void	set_values(t_input i);
 
+// TODO: Solve for case where odd monks and less time to eat causes dead locks
+// due to fork left in hand.
+// TODO: DEADLOCK prevention measures, nothing else.
+// FYI: Deaths are being tracked accurately as per statement in subject.
+// Do double check above statement tomorrow.
 int	main(int argc, char **argv)
 {
 	t_input		i;
