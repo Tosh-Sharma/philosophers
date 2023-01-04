@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 12:02:53 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/02 22:15:41 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/04 15:42:47 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ int	accurate_usleep(t_philo *i, int sleep_in_msec)
 	{
 		usleep(100);
 		if (should_we_stop(i) == -1)
+		{
+			pthread_mutex_unlock(&i->fork[i->fork_left]);
+			pthread_mutex_unlock(&i->fork[i->fork_right]);
 			return (-1);
+		}
 		gettimeofday(&current_time, NULL);
 		initial_time = (current_time.tv_sec * 1000) + (current_time.tv_usec
 				/ 1000);

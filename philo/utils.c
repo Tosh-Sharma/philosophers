@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:28:24 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/02 21:53:43 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/04 15:48:48 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	printer(t_philo *i, int j, char *action)
 
 	time = get_time(&i->current_time);
 	pthread_mutex_lock(i->printer);
-	printf("%lld ms %d %s\n", time - i->time_zero, j + 1, action);
+	if (*i->did_anyone_die == 0)
+		printf("%lld ms %d %s\n", time - i->time_zero, j + 1, action);
 	pthread_mutex_unlock(i->printer);
 	return (1);
 }
