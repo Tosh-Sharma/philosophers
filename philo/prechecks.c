@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:20:21 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/01/16 16:05:31 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/16 17:00:26 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	should_we_stop(t_philo *i)
 			if (time - i->time_zero > i->time_to_die)
 				return (print_death(time - i->time_zero, counter + 1, i));
 		}
-		else if (time - i->eat_time[counter] > i->time_to_die)
+		else if (time - i->eat_time[counter] > i->time_to_die
+			&& (i->eat_count[counter] < i->run_count))
 			return (print_death(time - i->time_zero, counter + 1, i));
 		counter++;
 	}
