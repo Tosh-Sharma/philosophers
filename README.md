@@ -61,3 +61,13 @@ Again, philosophers should avoid dying!
 ### Functions allowed
 
 - memset, printf, malloc, free, write, usleep, gettimeofday, pthread_create, pthread_detach, pthread_join, pthread_mutex_init, pthread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock
+
+### TESTS TO TRY OUT
+
+1. 1 800 200 200
+2. 5 800 200 200
+3. 5 800 200 200 5
+4. 4 410 200 200
+5. 4 310 200 100
+6. 50- 800 200 200
+7. When someone dies, the code should exit gracefully.

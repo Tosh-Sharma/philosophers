@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 15:44:11 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/02 22:14:06 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/16 15:13:56 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	*printer;
 	pthread_mutex_t	*death;
+	pthread_mutex_t	*checker;
 }	t_philo;
 
 typedef struct s_input
@@ -59,6 +60,7 @@ typedef struct s_input
 	long long		*eat_time;
 	long long		time_zero;
 	struct timeval	current_time;
+	pthread_mutex_t	*checker;
 }	t_input;
 
 int			ft_superatoi(const char *str, int *flag);

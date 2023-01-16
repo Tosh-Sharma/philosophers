@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 12:02:53 by tsharma           #+#    #+#             */
-/*   Updated: 2023/01/04 15:42:47 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/16 15:31:14 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,15 @@ int	eat_sleep_repeat(t_philo *i)
 	pthread_mutex_lock(&i->fork[i->fork_right]);
 	printer(i, i->monk_number, "took a fork");
 	time = get_time(&i->current_time);
+	pthread_mutex_lock(i->checker);
 	i->eat_time[i->monk_number] = time;
+	pthread_mutex_unlock(i->checker);
 	printer(i, i->monk_number, "is eating");
 	if (accurate_usleep(i, i->time_to_eat) == -1)
 		return (-1);
+	pthread_mutex_lock(i->checker);
 	i->eat_count[i->monk_number]++;
+	pthread_mutex_unlock(i->checker);
 	pthread_mutex_unlock(&i->fork[i->fork_left]);
 	pthread_mutex_unlock(&i->fork[i->fork_right]);
 	printer(i, i->monk_number, "is sleeping");
