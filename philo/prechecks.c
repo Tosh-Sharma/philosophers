@@ -6,7 +6,7 @@
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:20:21 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/01/16 17:00:26 by tsharma          ###   ########.fr       */
+/*   Updated: 2023/01/29 15:50:09 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,26 @@ int	should_we_stop(t_philo *i)
 	return (0);
 }
 
+// int	meals_done(t_philo *i, int j)
+// {
+// 	if (i->eat_count[j] != i->run_count)
+// 		return (0);
+// 	return (1);
+// }
+
+// Fixed above function for this input: 3 1500 500 500 10
 int	meals_done(t_philo *i, int j)
 {
-	if (i->eat_count[j] != i->run_count)
-		return (0);
-	return (1);
+	int	kk;
+	int	flag;
+
+	kk = -1;
+	flag = 1;
+	(void)j;
+	while (++kk < i->monk_count)
+	{
+		if (i->eat_count[kk] < i->run_count)
+			flag = 0;
+	}
+	return (flag);
 }
